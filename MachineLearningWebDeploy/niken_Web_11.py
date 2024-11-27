@@ -6,7 +6,9 @@ import altair as alt
 import os
 
 # Load model prediksi harga mobil
+print(f"Current working directory: {os.getcwd()}")
 file_path = os.path.join(os.getcwd(), 'model_prediksi_harga_mobil.sav')
+print(f"File path being used: {file_path}")
 model = pickle.load(open(file_path, 'rb'))
 
 # Sidebar untuk navigasi aplikasi
