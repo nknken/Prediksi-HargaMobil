@@ -3,9 +3,11 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import altair as alt
+import os
 
 # Load model prediksi harga mobil
-model = pickle.load(open('model_prediksi_harga_mobil.sav', 'rb'))
+file_path = os.path.join(os.getcwd(), 'model_prediksi_harga_mobil.sav')
+model = pickle.load(open(file_path, 'rb'))
 
 # Sidebar untuk navigasi aplikasi
 st.sidebar.title("Navigasi Aplikasi")
