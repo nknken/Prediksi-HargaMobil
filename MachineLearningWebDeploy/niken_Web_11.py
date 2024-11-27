@@ -7,6 +7,11 @@ import os
 
 # Load model prediksi harga mobil
 file_path = os.path.join(os.getcwd(), 'model_prediksi_harga_mobil.sav')
+
+if not os.path.exists(file_path):
+    # Jika file tidak ditemukan, coba path alternatif untuk server
+    file_path = '/mount/src/prediksi-hargamobil/model_prediksi_harga_mobil.sav'
+
 model = pickle.load(open(file_path, 'rb'))
 
 # Sidebar untuk navigasi aplikasi
