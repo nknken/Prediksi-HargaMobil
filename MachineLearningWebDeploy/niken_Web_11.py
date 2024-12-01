@@ -1,13 +1,34 @@
-import pickle
 import streamlit as st
 import pandas as pd
 import numpy as np
 import altair as alt
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 import os
 
-# Load model prediksi harga mobil
-file_path = os.path.join(os.getcwd(), 'model_prediksi_harga_mobil.sav')
-model = pickle.load(open(file_path, 'rb'))
+# Persiapkan model prediksi harga mobil menggunakan dataset contoh
+@st.cache_resource
+def load_model():
+    # Baca dataset
+    df = pd.read_csv('CarPrice.csv')
+
+    # Pilih fitur independen (X) dan target variabel (y)
+    X = df[['highwaympg', 'curbweight', 'horsepower']]
+    y = df['price']
+
+    # Bagi dataset menjadi data latih dan data uji
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Buat model regresi linier
+    model = LinearRegression()
+
+    # Latih model
+    model.fit(X_train, y_train)
+
+    return model
+
+# Load model
+model = load_model()
 
 # Sidebar untuk navigasi aplikasi
 st.sidebar.title("Navigasi Aplikasi")
@@ -100,7 +121,7 @@ elif app_mode == "Dataset & Visualisasi":
 
 elif app_mode == "Tentang Aplikasi":
     st.title("Tentang Aplikasi")
-    st.markdown("""
+    st.markdown(""" 
     **Aplikasi Prediksi Harga Mobil** adalah aplikasi berbasis web yang memanfaatkan machine learning untuk memperkirakan harga mobil
     berdasarkan beberapa parameter seperti:
     - Highway-mpg
@@ -117,8 +138,8 @@ elif app_mode == "Tentang Aplikasi":
     - **Streamlit**: Framework untuk aplikasi web
     - **Altair**: Visualisasi data
 
-    Harap pastikan bahwa file `model_prediksi_harga_mobil.sav` dan `CarPrice.csv` sudah diunggah ke dalam folder proyek.
+    Harap pastikan bahwa file `CarPrice.csv` sudah diunggah ke dalam folder proyek.
     """)
-    
+
     st.info("Untuk bantuan lebih lanjut, silakan hubungi pengembang aplikasi.")
     st.write("Dikembangkan oleh: Niken Setyo N")
