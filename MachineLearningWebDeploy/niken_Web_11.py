@@ -1,4 +1,3 @@
-import pickle
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -33,15 +32,12 @@ elif app_mode == "Prediksi Harga Mobil":
     # Tombol prediksi
     if st.button('Prediksi!'):
         try:
-            # Prediksi variabel yang telah dimasukkan
-            car_prediction = model.predict([[highwaympg, curbweight, horsepower]])
+            # Contoh model prediksi sederhana tanpa file eksternal
+            # Prediksi harga = 5000 + (highwaympg * 50) + (curbweight * 2) + (horsepower * 100)
+            harga_mobil = 5000 + (highwaympg * 50) + (curbweight * 2) + (horsepower * 100)
 
-            # Convert ke string
-            harga_mobil_str = np.array(car_prediction)
-            harga_mobil_float = float(harga_mobil_str[0])
-
-            # Tampilkan hasil prediksi
-            harga_mobil_formatted = "Rp {:,.0f}".format(harga_mobil_float)
+            # Format harga menjadi string
+            harga_mobil_formatted = "Rp {:,.0f}".format(harga_mobil)
             st.success(f"**Prediksi Harga Mobil: {harga_mobil_formatted}**")
         except Exception as e:
             st.error(f"Terjadi kesalahan saat melakukan prediksi: {e}")
@@ -112,9 +108,8 @@ elif app_mode == "Tentang Aplikasi":
     - **Streamlit**: Framework untuk aplikasi web
     - **Altair**: Visualisasi data
 
-    Harap pastikan bahwa file `model_prediksi_harga_mobil.sav` dan `CarPrice.csv` sudah diunggah ke dalam folder proyek.
+    Harap pastikan bahwa file `CarPrice.csv` sudah diunggah ke dalam folder proyek.
     """)
-    
+
     st.info("Untuk bantuan lebih lanjut, silakan hubungi pengembang aplikasi.")
     st.write("Dikembangkan oleh: Niken Setyo N")
-
